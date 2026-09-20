@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Soal MTK for Qisya</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;1,9..144,500&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream:#fff6e6; --cream-2:#fde9d0; --pink:#ffdce7; --pink-2:#ffc2d6; --rose:#e27a9b; --rose-deep:#b94e73;
+  --ink:#5a3848; --ink-soft:#8c6878; --line:rgba(226,122,155,.28);
+  --bg-1:#fff6e6; --bg-2:#ffe9ee; --bg-3:#ffd9e6;
+  --card:rgba(255,255,255,.66); --card-solid:#fffaf3; --shadow:rgba(185,78,115,.18);
+  --a-bg:#ffd6e1; --a-bd:#f3a3bd; --b-bg:#ffe5c6; --b-bd:#f2be86; --c-bg:#e6dbff; --c-bd:#bfa6f0;
+  --ok-bg:#d4f2df; --ok-bd:#72c592; --ok-ink:#25693f;
+  --no-bg:#ffd8d8; --no-bd:#e98a8a; --no-ink:#8f2f2f;
+  --blob-1:#ffc9da; --blob-2:#ffe2b8; --blob-3:#f7d4ff;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ink:#ffe7ef; --ink-soft:#d1aebd; --line:rgba(255,170,200,.25);
+    --bg-1:#2b1c26; --bg-2:#3a2232; --bg-3:#4a2a3e;
+    --card:rgba(255,255,255,.08); --card-solid:#3a2534; --shadow:rgba(0,0,0,.4);
+    --a-bg:#5a2c40; --a-bd:#a65a7a; --b-bg:#5a4128; --b-bd:#a67a45; --c-bg:#3f3462; --c-bd:#7c68b8;
+    --ok-bg:#25503a; --ok-bd:#4ea373; --ok-ink:#c8f3d8;
+    --no-bg:#5a2a2e; --no-bd:#b35a60; --no-ink:#ffd4d6;
+    --blob-1:#7a3a58; --blob-2:#6d5232; --blob-3:#54397a;
+  }
+}
+:root[data-theme="dark"]{
+  --ink:#ffe7ef; --ink-soft:#d1aebd; --line:rgba(255,170,200,.25);
+  --bg-1:#2b1c26; --bg-2:#3a2232; --bg-3:#4a2a3e;
+  --card:rgba(255,255,255,.08); --card-solid:#3a2534; --shadow:rgba(0,0,0,.4);
+  --a-bg:#5a2c40; --a-bd:#a65a7a; --b-bg:#5a4128; --b-bd:#a67a45; --c-bg:#3f3462; --c-bd:#7c68b8;
+  --ok-bg:#25503a; --ok-bd:#4ea373; --ok-ink:#c8f3d8;
+  --no-bg:#5a2a2e; --no-bd:#b35a60; --no-ink:#ffd4d6;
+  --blob-1:#7a3a58; --blob-2:#6d5232; --blob-3:#54397a;
+}
+html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px);}
+*,*::before,*::after{box-sizing:border-box;}
+body{
+  margin:0; min-height:100%; display:flex; flex-direction:column; position:relative; overflow-x:hidden;
+  font-family:'Nunito',system-ui,-apple-system,'Segoe UI',sans-serif; color:var(--ink);
+  background:var(--bg-1);
+  background-image:linear-gradient(140deg,var(--bg-1) 0%,var(--bg-2) 55%,var(--bg-3) 100%);
+  background-attachment:fixed;
+}
+
+/* ---------- decorative background ---------- */
+.bg{position:fixed; inset:0; pointer-events:none; overflow:hidden; z-index:0;}
+.blob{position:absolute; border-radius:50%; filter:blur(60px); opacity:.65; animation:drift 22s ease-in-out infinite alternate;}
+.blob.b1{width:46vmax;height:46vmax;left:-14vmax;top:-12vmax;background:radial-gradient(circle at 35% 35%,var(--blob-1),transparent 68%);}
+.blob.b2{width:40vmax;height:40vmax;right:-12vmax;top:22vh;background:radial-gradient(circle at 50% 50%,var(--blob-2),transparent 66%);animation-duration:28s;}
+.blob.b3{width:44vmax;height:44vmax;left:18vw;bottom:-22vmax;background:radial-gradient(circle at 50% 50%,var(--blob-3),transparent 66%);animation-duration:25s;}
+@keyframes drift{from{transform:translate(0,0) scale(1)}to{transform:translate(4vmax,3vmax) scale(1.08)}}
+.spark{position:absolute; color:var(--rose); opacity:.0; animation:twinkle 5s ease-in-out infinite;}
+@keyframes twinkle{0%,100%{opacity:0;transform:scale(.6) rotate(0)}50%{opacity:.7;transform:scale(1.1) rotate(20deg)}}
+.sym{position:absolute; font-family:'Fraunces',Georgia,serif; color:var(--rose); opacity:.16; animation:floaty 14s ease-in-out infinite alternate;}
+@keyframes floaty{from{transform:translateY(0) rotate(-6deg)}to{transform:translateY(-22px) rotate(8deg)}}
+
+/* ---------- layout ---------- */
+main{position:relative; z-index:1; flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:28px 16px 12px;}
+.screen{display:none; width:100%;}
+.screen.active{display:block;}
+footer{position:relative; z-index:1; text-align:center; padding:18px 16px 22px; line-height:1.5;}
+footer .by{font-family:'Fraunces',Georgia,serif; font-style:italic; font-size:.95rem; letter-spacing:.14em; color:var(--rose-deep);}
+footer .cheer{font-size:.78rem; letter-spacing:.12em; color:var(--ink-soft); font-weight:700; margin-top:2px;}
+.theme-btn{
+  position:fixed; z-index:5; top:calc(12px + env(safe-area-inset-top,0px)); right:14px; width:38px; height:38px; border-radius:50%;
+  border:1px solid var(--line); background:var(--card); color:var(--ink); font-size:1.05rem; cursor:pointer;
+  backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); transition:transform .2s;
+}
+.theme-btn:hover{transform:rotate(18deg) scale(1.08);}
+button{font-family:inherit; color:inherit;}
+button:focus-visible{outline:3px solid var(--rose); outline-offset:3px;}
+
+/* ---------- menu ---------- */
+.menu-wrap{max-width:400px; margin:0 auto; text-align:center; animation:rise .8s cubic-bezier(.2,.8,.2,1) both;}
+@keyframes rise{from{opacity:0; transform:translateY(18px)}to{opacity:1; transform:none}}
+.menu-card{
+  background:var(--card); border:1px solid var(--line); border-radius:38px 38px 38px 12px; padding:34px 26px 30px;
+  backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+  box-shadow:0 24px 60px -18px var(--shadow), inset 0 1px 0 rgba(255,255,255,.7);
+}
+.crest{font-size:1.5rem; color:var(--rose); letter-spacing:.35em; margin-bottom:6px;}
+.title{
+  font-family:'Fraunces',Georgia,serif; font-weight:700; font-size:1.02rem; letter-spacing:.3em; margin:0 0 6px; color:var(--rose-deep);
+  padding-left:.3em;
+}
+.tag{font-size:.86rem; color:var(--ink-soft); margin:0 0 26px;}
+.type-list{display:flex; flex-direction:column; gap:14px; align-items:center;}
+.type-btn{
+  position:relative; overflow:hidden; width:min(270px,100%); border:1.5px solid rgba(255,255,255,.75); cursor:pointer;
+  padding:15px 22px; border-radius:999px; font-family:'Fraunces',Georgia,serif; font-weight:700; font-size:1.05rem; letter-spacing:.2em;
+  color:var(--ink); box-shadow:0 10px 24px -10px var(--shadow);
+  transition:transform .28s cubic-bezier(.2,.9,.3,1.3), box-shadow .28s, letter-spacing .28s;
+}
+.type-btn[data-type="A"]{background:linear-gradient(120deg,#ffe0ea,#ffc7da);}
+.type-btn[data-type="B"]{background:linear-gradient(120deg,#ffeacc,#ffd3b2);}
+.type-btn[data-type="C"]{background:linear-gradient(120deg,#eadfff,#ffd0e6);}
+.type-btn::after{
+  content:""; position:absolute; top:0; left:-60%; width:40%; height:100%;
+  background:linear-gradient(100deg,transparent,rgba(255,255,255,.75),transparent); transform:skewX(-20deg); transition:left .6s;
+}
+.type-btn:hover,.type-btn:focus-visible{transform:translateY(-5px) scale(1.04); letter-spacing:.28em; box-shadow:0 18px 32px -10px var(--shadow), 0 0 0 5px rgba(255,194,214,.45);}
+.type-btn:hover::after,.type-btn:focus-visible::after{left:130%;}
+.type-btn:active{transform:translateY(-1px) scale(.99);}
+.hint{margin:24px 0 0; font-size:.78rem; color:var(--ink-soft);}
+
+/* ---------- quiz ---------- */
+.quiz-wrap{max-width:720px; margin:0 auto; animation:rise .5s cubic-bezier(.2,.8,.2,1) both;}
+.topbar{display:flex; align-items:center; gap:10px; margin-bottom:12px; flex-wrap:wrap;}
+.pill{
+  display:inline-flex; align-items:center; gap:6px; padding:7px 13px; border-radius:999px; font-weight:800; font-size:.82rem;
+  background:var(--card); border:1px solid var(--line); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
+}
+.pill.exit{cursor:pointer; margin-right:auto;}
+.pill.exit:hover{background:var(--pink);}
+.pill .dot{width:8px;height:8px;border-radius:50%;background:var(--ok-bd);}
+.progress{height:11px; border-radius:99px; background:rgba(226,122,155,.18); overflow:hidden; margin-bottom:16px; border:1px solid var(--line);}
+.progress>i{display:block; height:100%; width:0; border-radius:99px; background:linear-gradient(90deg,#ffb3cb,#f08cae,#ffcf9e); transition:width .5s cubic-bezier(.3,.8,.3,1);}
+.qcard{
+  background:var(--card); border:1px solid var(--line); border-radius:30px 30px 30px 10px; padding:24px 22px 22px;
+  backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); box-shadow:0 22px 50px -20px var(--shadow), inset 0 1px 0 rgba(255,255,255,.7);
+}
+.qcard.swap{animation:swap .45s cubic-bezier(.2,.8,.2,1) both;}
+@keyframes swap{from{opacity:0; transform:translateX(26px)}to{opacity:1; transform:none}}
+.qhead{display:flex; align-items:center; gap:10px; margin-bottom:14px;}
+.qnum{font-family:'Fraunces',Georgia,serif; font-weight:700; font-size:.95rem; color:var(--rose-deep); }
+.chip{font-size:.74rem; font-weight:800; padding:4px 11px; border-radius:99px; background:var(--pink); color:var(--rose-deep);}
+.qtext{font-size:1.16rem; line-height:1.65; font-weight:600; margin:0 0 20px;}
+.opts{display:grid; gap:11px;}
+.opt{
+  display:flex; align-items:center; gap:14px; width:100%; text-align:left; cursor:pointer; padding:13px 16px; border-radius:20px;
+  border:2px solid transparent; font-size:1.06rem; font-weight:700; color:var(--ink);
+  transition:transform .18s, box-shadow .18s, background .2s, border-color .2s, opacity .25s;
+}
+.opt:nth-child(1){background:var(--a-bg); border-color:var(--a-bd);}
+.opt:nth-child(2){background:var(--b-bg); border-color:var(--b-bd);}
+.opt:nth-child(3){background:var(--c-bg); border-color:var(--c-bd);}
+.opt:not(:disabled):hover{transform:translateY(-3px); box-shadow:0 12px 22px -12px var(--shadow);}
+.opt .badge{
+  flex:none; width:36px; height:36px; border-radius:12px; display:grid; place-items:center;
+  font-family:'Fraunces',Georgia,serif; font-weight:700; background:rgba(255,255,255,.75); color:var(--rose-deep);
+}
+.opt .txt{flex:1;}
+.opt .mark{font-size:1.2rem;}
+.opt:disabled{cursor:default;}
+.opt.correct{background:var(--ok-bg); border-color:var(--ok-bd); color:var(--ok-ink); animation:pop .4s ease;}
+.opt.wrong{background:var(--no-bg); border-color:var(--no-bd); color:var(--no-ink); animation:shake .4s ease;}
+.opt.dim{opacity:.5;}
+@keyframes pop{50%{transform:scale(1.03)}}
+@keyframes shake{20%{transform:translateX(-6px)}50%{transform:translateX(6px)}80%{transform:translateX(-3px)}}
+.feedback{margin-top:18px; display:none;}
+.feedback.show{display:block; animation:rise .4s ease both;}
+.verdict{font-weight:800; font-size:1.02rem; margin-bottom:10px;}
+.verdict.good{color:var(--ok-ink);} .verdict.bad{color:var(--no-ink);}
+.solution{
+  background:rgba(255,255,255,.55); border:1.5px dashed var(--line); border-radius:20px 20px 20px 6px; padding:16px 18px;
+}
+.solution h4{margin:0 0 8px; font-family:'Fraunces',Georgia,serif; font-size:1rem; color:var(--rose-deep);}
+.steps{margin:0; padding-left:1.25em; line-height:1.7; font-size:.96rem;}
+.steps li{margin-bottom:6px;}
+.steps li::marker{color:var(--rose); font-weight:800;}
+.answer-line{margin-top:10px; padding:9px 14px; border-radius:14px; background:var(--pink); font-weight:800; display:inline-block;}
+.next{
+  margin-top:16px; width:100%; border:none; cursor:pointer; padding:14px; border-radius:18px; font-weight:800; font-size:1rem; letter-spacing:.04em;
+  background:linear-gradient(120deg,#f59bb9,#f4b27f); color:#fff; box-shadow:0 12px 22px -10px var(--shadow); transition:transform .2s, box-shadow .2s;
+  text-shadow:0 1px 2px rgba(120,40,70,.35);
+}
+.next:hover{transform:translateY(-2px); box-shadow:0 16px 26px -10px var(--shadow);}
+sup{font-size:.7em; line-height:0;} sub{font-size:.7em; line-height:0;}
+.fr{display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; line-height:1.15; margin:0 .18em; font-size:.92em;}
+.fr>span:first-child{border-bottom:1.5px solid currentColor; padding:0 .25em;}
+.fr>span:last-child{padding:0 .25em;}
+
+/* ---------- result ---------- */
+.result-wrap{max-width:720px; margin:0 auto; animation:rise .6s cubic-bezier(.2,.8,.2,1) both;}
+.rcard{
+  text-align:center; background:var(--card); border:1px solid var(--line); border-radius:38px 38px 12px 38px; padding:30px 22px 26px;
+  backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); box-shadow:0 24px 60px -20px var(--shadow), inset 0 1px 0 rgba(255,255,255,.7);
+}
+.ring{position:relative; width:170px; height:170px; margin:0 auto 10px;}
+.ring svg{transform:rotate(-90deg);}
+.ring .val{position:absolute; inset:0; display:grid; place-items:center; font-family:'Fraunces',Georgia,serif; font-weight:700; font-size:2.6rem; color:var(--rose-deep);}
+.ring .val small{display:block; font-size:.75rem; font-family:'Nunito',sans-serif; color:var(--ink-soft); font-weight:700; margin-top:-6px;}
+.rmsg{font-family:'Fraunces',Georgia,serif; font-size:1.25rem; font-weight:700; margin:6px 0 4px;}
+.rsub{color:var(--ink-soft); font-size:.92rem; margin:0 0 18px;}
+.rbtns{display:flex; gap:10px; justify-content:center; flex-wrap:wrap;}
+.rbtn{border:1.5px solid var(--line); background:var(--card-solid); padding:11px 18px; border-radius:99px; font-weight:800; cursor:pointer; transition:transform .2s, background .2s;}
+.rbtn:hover{transform:translateY(-3px); background:var(--pink);}
+.rbtn.main{background:linear-gradient(120deg,#f59bb9,#f4b27f); color:#fff; border-color:transparent; text-shadow:0 1px 2px rgba(120,40,70,.35);}
+.review{margin-top:20px; display:grid; gap:10px;}
+.review h3{font-family:'Fraunces',Georgia,serif; margin:8px 4px 0; color:var(--rose-deep); font-size:1.1rem;}
+.ritem{background:var(--card); border:1px solid var(--line); border-radius:20px; padding:2px 16px; backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);}
+.ritem summary{cursor:pointer; list-style:none; padding:13px 0; display:flex; gap:10px; align-items:center; font-weight:700;}
+.ritem summary::-webkit-details-marker{display:none;}
+.ritem .n{flex:none; width:32px; height:32px; border-radius:11px; display:grid; place-items:center; font-weight:800; font-size:.86rem;}
+.ritem .n.ok{background:var(--ok-bg); color:var(--ok-ink);} .ritem .n.no{background:var(--no-bg); color:var(--no-ink);}
+.ritem .sm{flex:1; font-size:.92rem; font-weight:600; overflow:hidden; text-overflow:ellipsis; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical;}
+.ritem .body{padding:0 0 14px;}
+.ritem .qfull{font-weight:600; line-height:1.6; margin:0 0 10px;}
+.ritem .yours{font-size:.9rem; margin-bottom:10px; color:var(--ink-soft);}
+.ritem .yours b{color:var(--ink);}
+@media (max-width:480px){
+  .qtext{font-size:1.06rem;} .qcard{padding:20px 16px;} .menu-card{padding:30px 20px 26px;}
+}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation:none !important; transition:none !important;}
+}
+</style>
+</head>
+<body>
+
+<div class="bg" id="bg" aria-hidden="true">
+  <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+</div>
+<button class="theme-btn" id="themeBtn" aria-label="Ganti tema terang atau gelap" title="Ganti tema">☾</button>
+
+<main>
+  <!-- MENU -->
+  <section class="screen active" id="menu">
+    <div class="menu-wrap">
+      <div class="menu-card">
+        <div class="crest" aria-hidden="true">✦ ✧ ✦</div>
+        <h1 class="title">SOAL MTK FOR QISYA</h1>
+        <p class="tag">Pilih paket soal. Tiap paket berisi 30 soal.</p>
+        <div class="type-list">
+          <button class="type-btn" data-type="A">TYPE A</button>
+          <button class="type-btn" data-type="B">TYPE B</button>
+          <button class="type-btn" data-type="C">TYPE C</button>
+        </div>
+        <p class="hint">Jawab satu per satu. Pembahasan muncul setelah kamu menjawab.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUIZ -->
+  <section class="screen" id="quiz">
+    <div class="quiz-wrap">
+      <div class="topbar">
+        <button class="pill exit" id="exitBtn">‹ Menu</button>
+        <span class="pill" id="typePill">Type A</span>
+        <span class="pill"><span class="dot"></span><span id="okCount">0</span> benar</span>
+        <span class="pill" id="timer">00:00</span>
+      </div>
+      <div class="progress"><i id="bar"></i></div>
+      <article class="qcard" id="qcard">
+        <div class="qhead">
+          <span class="qnum" id="qnum">Soal 1 dari 30</span>
+          <span class="chip" id="qtopic">Bilangan</span>
+        </div>
+        <p class="qtext" id="qtext"></p>
+        <div class="opts" id="opts"></div>
+        <div class="feedback" id="feedback">
+          <div class="verdict" id="verdict"></div>
+          <div class="solution">
+            <h4>Cara mengerjakan</h4>
+            <ol class="steps" id="steps"></ol>
+            <div class="answer-line" id="ansLine"></div>
+          </div>
+          <button class="next" id="nextBtn">Soal berikutnya</button>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- RESULT -->
+  <section class="screen" id="result">
+    <div class="result-wrap">
+      <div class="rcard">
+        <div class="ring">
+          <svg width="170" height="170" viewBox="0 0 130 130" aria-hidden="true">
+            <circle cx="65" cy="65" r="54" fill="none" stroke="rgba(226,122,155,.2)" stroke-width="12"></circle>
+            <circle id="ringFill" cx="65" cy="65" r="54" fill="none" stroke="url(#g)" stroke-width="12" stroke-linecap="round" stroke-dasharray="339.3" stroke-dashoffset="339.3" style="transition:stroke-dashoffset 1.2s cubic-bezier(.3,.8,.3,1)"></circle>
+            <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f59bb9"/><stop offset="1" stop-color="#f4b27f"/></linearGradient></defs>
+          </svg>
+          <div class="val"><div><span id="rScore">0</span><small>dari 100</small></div></div>
+        </div>
+        <div class="rmsg" id="rMsg"></div>
+        <p class="rsub" id="rSub"></p>
+        <div class="rbtns">
+          <button class="rbtn main" id="againBtn">Ulangi paket ini</button>
+          <button class="rbtn" id="menuBtn">Kembali ke menu</button>
+        </div>
+      </div>
+      <div class="review" id="review"></div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="by">BY ALKEN</div>
+  <div class="cheer">SEMANGAT OIT JAN LULA MAKAN</div>
+</footer>
+
+<script>
+/* ============ helpers ============ */
+const f = (a, b) => `<span class="fr"><span>${a}</span><span>${b}</span></span>`;
+const mk = (topic, q, correct, wrong, steps) => ({ topic, q, correct, wrong, steps });
+const mod = (n) => `(tanda ≡ artinya "sisa pembagiannya sama" saat dibagi ${n})`;
+
+/* ============ TYPE A ============ */
+const SET_A = [
+mk('Bilangan', `Sisa pembagian 3<sup>2026</sup> oleh 7 adalah ....`, '4', ['2','6'], [
+  `Cari pola sisa pangkat 3 terhadap 7 ${mod(7)}: 3<sup>1</sup> ≡ 3, 3<sup>2</sup> = 9 ≡ 2, 3<sup>3</sup> ≡ 6, 3<sup>4</sup> = 81 ≡ 4, 3<sup>5</sup> = 243 ≡ 5, 3<sup>6</sup> = 729 ≡ 1.`,
+  `Sisa kembali menjadi 1 pada pangkat 6, sehingga polanya berulang setiap 6 pangkat.`,
+  `2026 = 6 × 337 + 4, maka 3<sup>2026</sup> = (3<sup>6</sup>)<sup>337</sup> · 3<sup>4</sup> ≡ 1<sup>337</sup> · 3<sup>4</sup> = 3<sup>4</sup>.`,
+  `3<sup>4</sup> = 81 = 7 × 11 + 4, jadi sisanya 4.`
+]),
+mk('Bilangan', `Bilangan asli terkecil yang jika dibagi 4, 5, dan 6 bersisa 3, serta habis dibagi 7 adalah ....`, '63', ['123','183'], [
+  `Sisa ketiganya sama (3), maka N − 3 habis dibagi 4, 5, dan 6. Artinya N − 3 kelipatan KPK(4, 5, 6) = 60.`,
+  `Jadi N = 60k + 3 dengan k = 0, 1, 2, ...`,
+  `N harus habis dibagi 7. Karena 60 = 7 × 8 + 4, maka 60k + 3 ≡ 4k + 3 (mod 7). Syaratnya 4k + 3 ≡ 0, yaitu 4k ≡ 4, sehingga k ≡ 1 (mod 7).`,
+  `k = 0 memberi N = 3 (tidak habis dibagi 7). k terkecil yang cocok adalah k = 1, sehingga N = 60 + 3 = 63.`,
+  `Cek: 63 = 7 × 9; 63 = 4 × 15 + 3; 63 = 5 × 12 + 3; 63 = 6 × 10 + 3.`
+]),
+mk('Bilangan', `Banyak faktor positif dari 10.800 yang merupakan bilangan kuadrat sempurna adalah ....`, '12', ['8','24'], [
+  `Faktorisasi prima: 10.800 = 108 × 100 = (2<sup>2</sup>·3<sup>3</sup>)(2<sup>2</sup>·5<sup>2</sup>) = 2<sup>4</sup> · 3<sup>3</sup> · 5<sup>2</sup>.`,
+  `Setiap faktor positif berbentuk 2<sup>a</sup>·3<sup>b</sup>·5<sup>c</sup> dengan 0 ≤ a ≤ 4, 0 ≤ b ≤ 3, 0 ≤ c ≤ 2.`,
+  `Bilangan kuadrat sempurna hanya jika semua eksponen genap: a ∈ {0, 2, 4} (3 pilihan), b ∈ {0, 2} (2 pilihan), c ∈ {0, 2} (2 pilihan).`,
+  `Banyaknya = 3 × 2 × 2 = 12.`
+]),
+mk('Bilangan', `Pada sistem bilangan basis b berlaku (124)<sub>b</sub> + (35)<sub>b</sub> = (203)<sub>b</sub>. Nilai b adalah ....`, '6', ['7','8'], [
+  `Ubah ke basis 10: (124)<sub>b</sub> = b² + 2b + 4, (35)<sub>b</sub> = 3b + 5, dan (203)<sub>b</sub> = 2b² + 0·b + 3.`,
+  `Persamaan: b² + 2b + 4 + 3b + 5 = 2b² + 3, yaitu b² + 5b + 9 = 2b² + 3.`,
+  `Susun ulang: b² − 5b − 6 = 0, difaktorkan (b − 6)(b + 1) = 0, sehingga b = 6 atau b = −1.`,
+  `Basis harus positif dan lebih besar dari digit terbesar (5), jadi b = 6.`,
+  `Cek: (124)<sub>6</sub> = 52, (35)<sub>6</sub> = 23, jumlahnya 75 = (203)<sub>6</sub> = 72 + 3.`
+]),
+mk('Bilangan', `Banyak bilangan asli n ≤ 60 sehingga n² + n + 6 habis dibagi 4 adalah ....`, '30', ['15','45'], [
+  `Tulis n² + n + 6 = n(n + 1) + 6. Karena 6 ≡ 2 (mod 4), cukup selidiki kapan n(n + 1) + 2 ≡ 0 (mod 4).`,
+  `Sisa n(n + 1) terhadap 4 menurut sisa n: n ≡ 0 → 0; n ≡ 1 → 1·2 = 2; n ≡ 2 → 2·3 = 6 ≡ 2; n ≡ 3 → 3·4 = 12 ≡ 0.`,
+  `Kita butuh n(n + 1) ≡ 2 (mod 4), yaitu n ≡ 1 atau n ≡ 2 (mod 4).`,
+  `Dalam 1 sampai 60 ada 15 blok berisi 4 bilangan, tiap blok punya 2 nilai n yang memenuhi: 15 × 2 = 30.`,
+  `Cek: n = 1 → 8 ✓, n = 2 → 12 ✓, n = 3 → 18 ✗, n = 4 → 26 ✗, n = 5 → 36 ✓.`
+]),
+mk('Aljabar', `Diketahui a − b = 4 dan ab = 5. Nilai a<sup>3</sup> − b<sup>3</sup> adalah ....`, '124', ['64','104'], [
+  `Pangkatkan tiga: (a − b)³ = a³ − 3a²b + 3ab² − b³ = a³ − b³ − 3ab(a − b).`,
+  `Maka a³ − b³ = (a − b)³ + 3ab(a − b).`,
+  `Substitusi: a³ − b³ = 4³ + 3 · 5 · 4 = 64 + 60 = 124.`,
+  `Cek dengan a = 5, b = 1: 125 − 1 = 124 ✓.`
+]),
+mk('Aljabar', `Persamaan (a² − 9)x = a + 3 tidak mempunyai penyelesaian (tidak ada x yang memenuhi) jika a = ....`, '3', ['−3','9'], [
+  `Persamaan berbentuk p·x = q tidak punya penyelesaian jika p = 0 tetapi q ≠ 0.`,
+  `p = a² − 9 = (a − 3)(a + 3) = 0, maka a = 3 atau a = −3.`,
+  `Uji a = 3: 0·x = 6, tidak mungkin, jadi tidak ada penyelesaian.`,
+  `Uji a = −3: 0·x = 0, benar untuk semua x (tak hingga penyelesaian), jadi tidak memenuhi.`,
+  `Jadi a = 3.`
+]),
+mk('Aljabar', `Nilai minimum dari x² − 10x + y² + 6y + 40 untuk bilangan real x dan y adalah ....`, '6', ['0','16'], [
+  `Lengkapi kuadrat sempurna: x² − 10x = (x − 5)² − 25.`,
+  `y² + 6y = (y + 3)² − 9.`,
+  `Bentuk semula = (x − 5)² + (y + 3)² − 25 − 9 + 40 = (x − 5)² + (y + 3)² + 6.`,
+  `Kuadrat bilangan real tidak pernah negatif, jadi nilai terkecil terjadi saat x = 5 dan y = −3, yaitu 6.`
+]),
+mk('Aljabar', `Diberikan barisan 4, 10, 18, 28, 40, .... Suku ke-30 barisan tersebut adalah ....`, '990', ['960','1.020'], [
+  `Selisih tingkat 1: 6, 8, 10, 12. Selisih tingkat 2: 2, 2, 2 (tetap), maka rumusnya kuadrat: U<sub>n</sub> = an² + bn + c dengan 2a = 2, jadi a = 1.`,
+  `U<sub>1</sub>: 1 + b + c = 4 dan U<sub>2</sub>: 4 + 2b + c = 10. Kurangkan: 3 + b = 6, maka b = 3 dan c = 0.`,
+  `Rumus suku ke-n: U<sub>n</sub> = n² + 3n. Cek U<sub>3</sub> = 9 + 9 = 18 ✓ dan U<sub>4</sub> = 16 + 12 = 28 ✓.`,
+  `U<sub>30</sub> = 900 + 90 = 990.`
+]),
+mk('Aljabar', `Harga 3 buku dan 2 pensil adalah Rp19.000, sedangkan harga 2 buku dan 5 pensil adalah Rp20.000. Harga 4 buku dan 3 pensil adalah ....`, 'Rp26.000', ['Rp24.000','Rp28.000'], [
+  `Misal harga buku = b dan pensil = p (dalam ribuan rupiah). Sistem: 3b + 2p = 19 ... (1) dan 2b + 5p = 20 ... (2).`,
+  `Eliminasi p: (1) × 5 → 15b + 10p = 95; (2) × 2 → 4b + 10p = 40. Kurangkan: 11b = 55, maka b = 5.`,
+  `Substitusi ke (1): 15 + 2p = 19, maka p = 2.`,
+  `4b + 3p = 20 + 6 = 26, yaitu Rp26.000. Cek (2): 10 + 10 = 20 ✓.`
+]),
+mk('Geometri', `Pada segiempat ABCD, ∠ABC = 90° dan ∠ACD = 90°. Jika AB = 9 cm, BC = 12 cm, dan CD = 20 cm, panjang AD adalah ... cm.`, '25', ['29','35'], [
+  `Segitiga ABC siku-siku di B: AC² = AB² + BC² = 81 + 144 = 225, maka AC = 15 cm.`,
+  `Segitiga ACD siku-siku di C: AD² = AC² + CD² = 225 + 400 = 625.`,
+  `AD = √625 = 25 cm.`
+]),
+mk('Geometri', `Pada trapesium ABCD dengan AB ∥ DC, AB = 30 cm dan DC = 20 cm. Titik E pada AD dan F pada BC sehingga EF ∥ AB dan AE : ED = 2 : 3. Panjang EF adalah ... cm.`, '26', ['25','28'], [
+  `Tarik garis dari D sejajar BC, memotong AB di G dan EF di H. Maka DGBC jajargenjang: GB = DC = 20, sehingga AG = 30 − 20 = 10. Begitu pula DHFC jajargenjang: HF = DC = 20.`,
+  `Karena EH ∥ AG, segitiga DEH sebangun dengan segitiga DAG. Perbandingan DE : DA = 3 : 5.`,
+  `EH / AG = DE / DA, maka EH = ${f(3,5)} × 10 = 6.`,
+  `EF = EH + HF = 6 + 20 = 26 cm.`
+]),
+mk('Geometri', `Dari titik P di luar lingkaran ditarik dua garis singgung PA dan PB dengan A dan B titik singgung. Jika ∠APB = 40° dan titik C terletak pada busur besar AB, besar ∠ACB adalah ....`, '70°', ['140°','110°'], [
+  `Garis singgung tegak lurus jari-jari di titik singgung, jadi ∠OAP = ∠OBP = 90° (O pusat lingkaran).`,
+  `Jumlah sudut segiempat OAPB = 360°, maka ∠AOB = 360° − 90° − 90° − 40° = 140°.`,
+  `Sudut keliling ∠ACB dan sudut pusat ∠AOB menghadap busur kecil AB yang sama. Sudut keliling = ½ sudut pusat.`,
+  `∠ACB = ½ × 140° = 70°.`
+]),
+mk('Geometri', `Persegi ABCD mempunyai sisi 12 cm. Titik E adalah titik tengah AB dan F adalah titik tengah BC. Luas segitiga DEF adalah ... cm².`, '54', ['48','60'], [
+  `Luas persegi = 12 × 12 = 144 cm². Luas DEF = luas persegi dikurangi tiga segitiga di sudut-sudutnya.`,
+  `Segitiga ADE: AD = 12, AE = 6, luas = ½ · 12 · 6 = 36.`,
+  `Segitiga BEF: BE = 6, BF = 6, luas = ½ · 6 · 6 = 18.`,
+  `Segitiga CDF: CD = 12, CF = 6, luas = ½ · 12 · 6 = 36.`,
+  `Luas DEF = 144 − (36 + 18 + 36) = 144 − 90 = 54 cm².`
+]),
+mk('Kombinatorika', `Lima orang A, B, C, D, dan E berdiri berjajar dalam satu baris. Jika A dan B harus berdampingan dan C tidak boleh berdiri di ujung baris, banyak susunan yang mungkin adalah ....`, '24', ['48','36'], [
+  `Anggap A dan B satu blok. Ada 4 unit (blok, C, D, E) yang diatur dalam 4! = 24 cara, dan di dalam blok bisa AB atau BA. Jadi susunan dengan A, B berdampingan = 24 × 2 = 48.`,
+  `Hitung yang tidak diinginkan, yaitu C di ujung. C di ujung kiri: 3 unit lain (blok, D, E) diatur 3! = 6 cara, dikali 2 untuk isi blok = 12. C di ujung kanan juga 12. Total = 24.`,
+  `Susunan yang memenuhi = 48 − 24 = 24.`
+]),
+mk('Kombinatorika', `Dari angka 1, 2, 3, 4, 5, 6 akan disusun bilangan empat digit dengan angka-angka berbeda yang ganjil dan lebih dari 3000. Banyak bilangan yang mungkin adalah ....`, '120', ['108','144'], [
+  `Digit satuan harus ganjil: 1, 3, atau 5. Digit ribuan harus minimal 3: 3, 4, 5, atau 6. Bagi menjadi kasus menurut digit satuan.`,
+  `Satuan = 1: ribuan ada 4 pilihan (3, 4, 5, 6). Dua digit tengah diambil dari 4 angka sisa: 4 × 3 = 12. Jadi 4 × 12 = 48.`,
+  `Satuan = 3: ribuan ada 3 pilihan (4, 5, 6), tengah 12 cara: 3 × 12 = 36.`,
+  `Satuan = 5: ribuan ada 3 pilihan (3, 4, 6), tengah 12 cara: 36.`,
+  `Total = 48 + 36 + 36 = 120.`
+]),
+mk('Peluang', `Sebuah kantong berisi 6 bola merah dan 4 bola biru. Tiga bola diambil sekaligus secara acak. Peluang ketiga bola berwarna sama adalah ....`, f(1,5), [f(1,4), f(3,10)], [
+  `Banyak cara mengambil 3 bola dari 10: C(10, 3) = ${f('10·9·8','3·2·1')} = 120.`,
+  `Ketiganya merah: C(6, 3) = 20. Ketiganya biru: C(4, 3) = 4.`,
+  `Kejadian yang diinginkan = 20 + 4 = 24 cara.`,
+  `Peluang = ${f(24,120)} = ${f(1,5)}.`
+]),
+mk('Statistika', `Rata-rata nilai 8 siswa adalah 72. Setelah dua siswa lagi bergabung, rata-rata 10 siswa menjadi 75. Jika selisih nilai kedua siswa baru adalah 6, nilai tertinggi di antara keduanya adalah ....`, '90', ['87','93'], [
+  `Jumlah nilai 8 siswa = 8 × 72 = 576. Jumlah nilai 10 siswa = 10 × 75 = 750.`,
+  `Jumlah nilai dua siswa baru = 750 − 576 = 174.`,
+  `Misal nilai tertinggi x dan terendah y: x + y = 174 dan x − y = 6.`,
+  `Jumlahkan kedua persamaan: 2x = 180, maka x = 90 (dan y = 84).`
+]),
+mk('Kapita Selekta', `Jumlah semua bilangan bulat dari 1 sampai 100 yang tidak habis dibagi 5 adalah ....`, '4.000', ['4.050','3.800'], [
+  `Strategi efisien: hitung jumlah semua bilangan, lalu kurangi jumlah kelipatan 5 (daripada menjumlahkan satu per satu).`,
+  `Jumlah 1 sampai 100 = ${f('100 × 101','2')} = 5.050.`,
+  `Kelipatan 5: 5, 10, ..., 100 = 5(1 + 2 + ... + 20) = 5 × 210 = 1.050.`,
+  `Jumlah yang diminta = 5.050 − 1.050 = 4.000.`
+]),
+mk('Kapita Selekta', `Perhatikan pola: 1³ = 1 = 1²; 1³ + 2³ = 9 = 3²; 1³ + 2³ + 3³ = 36 = 6²; 1³ + 2³ + 3³ + 4³ = 100 = 10². Berdasarkan pola tersebut, nilai 1³ + 2³ + ... + 9³ adalah ....`, '2.025', ['3.025','2.500'], [
+  `Amati bilangan yang dikuadratkan: 1, 3, 6, 10. Ini adalah 1, 1+2, 1+2+3, 1+2+3+4 (bilangan segitiga).`,
+  `Kesimpulan: 1³ + 2³ + ... + n³ = (1 + 2 + ... + n)² = [${f('n(n + 1)','2')}]². Alasannya, pola ini cocok untuk n = 1, 2, 3, 4 dan bentuk umumnya konsisten.`,
+  `Untuk n = 9: 1 + 2 + ... + 9 = ${f('9 × 10','2')} = 45.`,
+  `Jadi jumlahnya 45² = 2.025.`
+]),
+mk('Bilangan', `Angka satuan dari 7<sup>2026</sup> + 3<sup>2026</sup> adalah ....`, '8', ['0','2'], [
+  `Angka satuan pangkat 7 berulang: 7, 9, 3, 1 (periode 4). Pangkat 3 juga: 3, 9, 7, 1 (periode 4).`,
+  `2026 = 4 × 506 + 2, jadi posisinya ke-2 dalam pola.`,
+  `Satuan 7<sup>2026</sup> adalah 9, satuan 3<sup>2026</sup> adalah 9.`,
+  `9 + 9 = 18, sehingga angka satuannya 8.`
+]),
+mk('Bilangan', `Tiga lampu berkedip masing-masing setiap 12 detik, 18 detik, dan 30 detik. Ketiganya menyala bersamaan pada pukul 08.00.00. Berapa kali ketiganya menyala bersamaan sejak pukul 08.00.00 sampai pukul 09.00.00 (kedua waktu tersebut dihitung)?`, '21', ['20','25'], [
+  `Ketiga lampu menyala bersamaan setiap KPK(12, 18, 30) detik. 12 = 2²·3, 18 = 2·3², 30 = 2·3·5, jadi KPK = 2²·3²·5 = 180 detik.`,
+  `Satu jam = 3.600 detik, maka ada 3.600 ÷ 180 = 20 selang.`,
+  `Karena detik ke-0 (pukul 08.00.00) juga dihitung, banyaknya = 20 + 1 = 21 kali.`
+]),
+mk('Aljabar', `Jika x + ${f(1,'x')} = 4, nilai x<sup>4</sup> + ${f(1,'x<sup>4</sup>')} adalah ....`, '194', ['196','192'], [
+  `Kuadratkan: (x + ${f(1,'x')})² = x² + 2 + ${f(1,'x²')} = 16, maka x² + ${f(1,'x²')} = 14.`,
+  `Kuadratkan lagi: (x² + ${f(1,'x²')})² = x<sup>4</sup> + 2 + ${f(1,'x<sup>4</sup>')} = 196.`,
+  `Jadi x<sup>4</sup> + ${f(1,'x<sup>4</sup>')} = 196 − 2 = 194.`
+]),
+mk('Aljabar', `Umur ayah sekarang 4 kali umur Qisya. Enam tahun yang lalu, umur ayah 7 kali umur Qisya. Jumlah umur mereka 10 tahun lagi adalah ... tahun.`, '80', ['60','68'], [
+  `Misal umur Qisya = q dan ayah = a. Diketahui a = 4q.`,
+  `Enam tahun lalu: a − 6 = 7(q − 6). Substitusi a = 4q: 4q − 6 = 7q − 42, maka 36 = 3q, jadi q = 12 dan a = 48.`,
+  `Cek: 6 tahun lalu umur mereka 42 dan 6, dan 42 = 7 × 6 ✓.`,
+  `Sepuluh tahun lagi: Qisya 22 tahun, ayah 58 tahun. Jumlahnya 22 + 58 = 80.`
+]),
+mk('Geometri', `Sebuah tangga sepanjang 25 m disandarkan pada dinding tegak. Ujung bawahnya berjarak 7 m dari dinding. Jika ujung atas tangga turun 4 m sepanjang dinding, ujung bawah tangga bergeser menjauhi dinding sejauh ... m.`, '8', ['4','6'], [
+  `Tinggi awal ujung atas: √(25² − 7²) = √(625 − 49) = √576 = 24 m.`,
+  `Setelah turun 4 m, tingginya 20 m. Jarak ujung bawah dari dinding sekarang: √(25² − 20²) = √(625 − 400) = √225 = 15 m.`,
+  `Pergeseran = 15 − 7 = 8 m.`
+]),
+mk('Geometri', `Segitiga ABC memiliki AB = 13 cm, BC = 14 cm, dan AC = 15 cm. Tinggi segitiga dari titik A ke sisi BC adalah ... cm.`, '12', ['10','11'], [
+  `Misal kaki tinggi dari A ke BC adalah D dengan BD = x, maka DC = 14 − x, dan tinggi = h.`,
+  `Pythagoras di dua segitiga siku-siku: h² = 13² − x² dan h² = 15² − (14 − x)². Samakan: 169 − x² = 225 − 196 + 28x − x².`,
+  `Sederhanakan: 169 = 29 + 28x, maka x = 5.`,
+  `h = √(13² − 5²) = √144 = 12 cm.`
+]),
+mk('Geometri', `Dua tali busur AB dan CD pada suatu lingkaran berpotongan di titik P di dalam lingkaran. Jika AP = 10 cm, PB = 12 cm, dan CP = 8 cm, panjang PD adalah ... cm.`, '15', ['12','16'], [
+  `Hubungkan A dengan C dan B dengan D. ∠CAB = ∠CDB karena menghadap busur yang sama, dan ∠APC = ∠DPB karena bertolak belakang.`,
+  `Jadi segitiga APC sebangun dengan segitiga DPB (sudut-sudut sama).`,
+  `Perbandingan sisi: ${f('AP','DP')} = ${f('CP','BP')}, sehingga AP · BP = CP · DP.`,
+  `10 × 12 = 8 × PD, maka PD = ${f(120,8)} = 15 cm.`
+]),
+mk('Kombinatorika', `Dari 6 pria dan 5 wanita akan dibentuk panitia beranggotakan 4 orang yang memuat paling sedikit 2 wanita. Banyak cara membentuk panitia adalah ....`, '215', ['210','225'], [
+  `Paling sedikit 2 wanita berarti kasus: 2, 3, atau 4 wanita.`,
+  `2 wanita + 2 pria: C(5,2) × C(6,2) = 10 × 15 = 150.`,
+  `3 wanita + 1 pria: C(5,3) × C(6,1) = 10 × 6 = 60.`,
+  `4 wanita: C(5,4) = 5.`,
+  `Total = 150 + 60 + 5 = 215. (Cek: C(11,4) = 330, dikurangi kasus 0 atau 1 wanita: 15 + 100 = 115, hasil 215 ✓.)`
+]),
+mk('Peluang', `Dua dadu dilempar bersamaan. Peluang jumlah kedua mata dadu merupakan bilangan prima adalah ....`, f(5,12), [f(1,3), f(7,18)], [
+  `Ruang sampel: 6 × 6 = 36 hasil.`,
+  `Jumlah prima yang mungkin: 2, 3, 5, 7, 11. Banyak cara: jumlah 2 → 1 cara; 3 → 2 cara; 5 → 4 cara; 7 → 6 cara; 11 → 2 cara.`,
+  `Total kejadian = 1 + 2 + 4 + 6 + 2 = 15.`,
+  `Peluang = ${f(15,36)} = ${f(5,12)}.`
+]),
+mk('Statistika', `Rata-rata nilai 20 siswa kelompok A adalah 60. Rata-rata nilai 30 siswa kelompok B adalah x. Jika rata-rata gabungan kedua kelompok (50 siswa) adalah 72, maka x = ....`, '80', ['78','84'], [
+  `Jumlah nilai kelompok A = 20 × 60 = 1.200. Jumlah nilai gabungan = 50 × 72 = 3.600.`,
+  `Jumlah nilai kelompok B = 3.600 − 1.200 = 2.400.`,
+  `Rata-rata B: x = ${f('2.400','30')} = 80.`
+])
+];
+
+/* ============ TYPE B ============ */
+const SET_B = [
+mk('Bilangan', `Sisa pembagian 4<sup>2027</sup> oleh 9 adalah ....`, '7', ['1','4'], [
+  `Cari pola sisa pangkat 4 terhadap 9 ${mod(9)}: 4<sup>1</sup> ≡ 4, 4<sup>2</sup> = 16 ≡ 7, 4<sup>3</sup> = 64 = 63 + 1 ≡ 1.`,
+  `Sisa kembali 1 pada pangkat 3, jadi polanya berulang setiap 3 pangkat.`,
+  `2027 = 3 × 675 + 2, maka 4<sup>2027</sup> = (4<sup>3</sup>)<sup>675</sup> · 4² ≡ 1 · 16.`,
+  `16 = 9 + 7, jadi sisanya 7.`
+]),
+mk('Bilangan', `Bilangan asli terkecil yang jika dibagi 6, 8, dan 9 bersisa 5, serta habis dibagi 11 adalah ....`, '77', ['149','221'], [
+  `Sisa ketiganya sama (5), maka N − 5 kelipatan KPK(6, 8, 9). 6 = 2·3, 8 = 2³, 9 = 3², jadi KPK = 2³·3² = 72.`,
+  `Jadi N = 72k + 5.`,
+  `N habis dibagi 11. Karena 72 = 11 × 6 + 6, maka 72k + 5 ≡ 6k + 5 (mod 11). Syaratnya 6k + 5 ≡ 0, yaitu 6k ≡ 6, sehingga k ≡ 1 (mod 11).`,
+  `k = 0 memberi N = 5 (tidak habis dibagi 11), jadi k terkecil adalah 1 dan N = 72 + 5 = 77.`,
+  `Cek: 77 = 11 × 7; 77 = 6 × 12 + 5; 77 = 8 × 9 + 5; 77 = 9 × 8 + 5.`
+]),
+mk('Bilangan', `Banyak faktor positif dari 31.752 yang merupakan kelipatan 6 adalah ....`, '36', ['24','48'], [
+  `Faktorisasi prima: 31.752 = 8 × 3.969 = 2³ × 63² = 2³ × (3²·7)² = 2³ · 3<sup>4</sup> · 7².`,
+  `Faktor berbentuk 2<sup>a</sup>·3<sup>b</sup>·7<sup>c</sup>. Kelipatan 6 harus memuat minimal satu faktor 2 dan satu faktor 3.`,
+  `a ∈ {1, 2, 3} (3 pilihan), b ∈ {1, 2, 3, 4} (4 pilihan), c ∈ {0, 1, 2} (3 pilihan).`,
+  `Banyaknya = 3 × 4 × 3 = 36.`
+]),
+mk('Bilangan', `Pada sistem bilangan basis b berlaku (235)<sub>b</sub> + (46)<sub>b</sub> = (303)<sub>b</sub>. Nilai b adalah ....`, '8', ['7','9'], [
+  `Ubah ke basis 10: (235)<sub>b</sub> = 2b² + 3b + 5, (46)<sub>b</sub> = 4b + 6, (303)<sub>b</sub> = 3b² + 0·b + 3.`,
+  `Persamaan: 2b² + 3b + 5 + 4b + 6 = 3b² + 3, yaitu 2b² + 7b + 11 = 3b² + 3.`,
+  `Susun ulang: b² − 7b − 8 = 0, difaktorkan (b − 8)(b + 1) = 0, jadi b = 8 atau b = −1.`,
+  `Basis harus positif dan lebih besar dari digit terbesar (6), jadi b = 8.`,
+  `Cek: (235)<sub>8</sub> = 157, (46)<sub>8</sub> = 38, jumlahnya 195 = (303)<sub>8</sub> = 192 + 3.`
+]),
+mk('Bilangan', `Banyak bilangan asli n ≤ 80 sehingga n² + 3n + 2 habis dibagi 4 adalah ....`, '40', ['20','60'], [
+  `Faktorkan: n² + 3n + 2 = (n + 1)(n + 2). Ini hasil kali dua bilangan berurutan, jadi satu ganjil dan satu genap.`,
+  `Agar habis dibagi 4, bilangan genapnya harus kelipatan 4.`,
+  `n + 1 kelipatan 4 → n ≡ 3 (mod 4). n + 2 kelipatan 4 → n ≡ 2 (mod 4).`,
+  `Dalam 1 sampai 80 ada 20 blok berisi 4 bilangan, tiap blok punya 2 nilai n yang memenuhi: 20 × 2 = 40.`,
+  `Cek: n = 2 → 12 ✓, n = 3 → 20 ✓, n = 4 → 30 ✗, n = 1 → 6 ✗.`
+]),
+mk('Aljabar', `Diketahui a + b = 7 dan ab = 10. Nilai a<sup>3</sup> + b<sup>3</sup> adalah ....`, '133', ['343','143'], [
+  `Pangkatkan tiga: (a + b)³ = a³ + 3a²b + 3ab² + b³ = a³ + b³ + 3ab(a + b).`,
+  `Maka a³ + b³ = (a + b)³ − 3ab(a + b).`,
+  `Substitusi: a³ + b³ = 7³ − 3 · 10 · 7 = 343 − 210 = 133.`,
+  `Cek dengan a = 5, b = 2: 125 + 8 = 133 ✓.`
+]),
+mk('Aljabar', `Persamaan (a² − 16)x = a − 4 mempunyai tak hingga banyak penyelesaian jika a = ....`, '4', ['−4','16'], [
+  `Persamaan berbentuk p·x = q memiliki tak hingga penyelesaian jika p = 0 dan q = 0.`,
+  `p = a² − 16 = (a − 4)(a + 4) = 0, maka a = 4 atau a = −4.`,
+  `q = a − 4 = 0, maka a = 4.`,
+  `Uji a = −4: 0·x = −8, tidak mungkin (tidak ada penyelesaian). Jadi a = 4.`
+]),
+mk('Aljabar', `Nilai minimum dari x² + 6x + y² − 8y + 30 untuk bilangan real x dan y adalah ....`, '5', ['0','9'], [
+  `Lengkapi kuadrat sempurna: x² + 6x = (x + 3)² − 9.`,
+  `y² − 8y = (y − 4)² − 16.`,
+  `Bentuk semula = (x + 3)² + (y − 4)² − 9 − 16 + 30 = (x + 3)² + (y − 4)² + 5.`,
+  `Kuadrat bilangan real tidak pernah negatif, jadi nilai terkecil terjadi saat x = −3 dan y = 4, yaitu 5.`
+]),
+mk('Aljabar', `Diberikan barisan 2, 7, 14, 23, 34, .... Suku ke-25 barisan tersebut adalah ....`, '674', ['675','625'], [
+  `Selisih tingkat 1: 5, 7, 9, 11. Selisih tingkat 2: 2, 2, 2 (tetap), maka rumusnya kuadrat: U<sub>n</sub> = an² + bn + c dengan 2a = 2, jadi a = 1.`,
+  `U<sub>1</sub>: 1 + b + c = 2 dan U<sub>2</sub>: 4 + 2b + c = 7. Kurangkan: 3 + b = 5, maka b = 2 dan c = −1.`,
+  `Rumus suku ke-n: U<sub>n</sub> = n² + 2n − 1. Cek U<sub>3</sub> = 9 + 6 − 1 = 14 ✓.`,
+  `U<sub>25</sub> = 625 + 50 − 1 = 674.`
+]),
+mk('Aljabar', `Harga 2 kg apel dan 3 kg jeruk adalah Rp85.000, sedangkan harga 3 kg apel dan 2 kg jeruk adalah Rp90.000. Harga 5 kg apel dan 4 kg jeruk adalah ....`, 'Rp160.000', ['Rp150.000','Rp170.000'], [
+  `Misal harga apel = a dan jeruk = j per kg (dalam ribuan rupiah). Sistem: 2a + 3j = 85 ... (1) dan 3a + 2j = 90 ... (2).`,
+  `Eliminasi a: (1) × 3 → 6a + 9j = 255; (2) × 2 → 6a + 4j = 180. Kurangkan: 5j = 75, maka j = 15.`,
+  `Substitusi ke (1): 2a + 45 = 85, maka a = 20.`,
+  `5a + 4j = 100 + 60 = 160, yaitu Rp160.000. Cek (2): 60 + 30 = 90 ✓.`
+]),
+mk('Geometri', `Pada segiempat ABCD, ∠ABC = 90° dan ∠ACD = 90°. Jika AB = 16 cm, BC = 12 cm, dan CD = 21 cm, panjang AD adalah ... cm.`, '29', ['25','41'], [
+  `Segitiga ABC siku-siku di B: AC² = AB² + BC² = 256 + 144 = 400, maka AC = 20 cm.`,
+  `Segitiga ACD siku-siku di C: AD² = AC² + CD² = 400 + 441 = 841.`,
+  `AD = √841 = 29 cm.`
+]),
+mk('Geometri', `Segitiga ABC siku-siku di C. Titik D terletak pada sisi AB sehingga CD ⟂ AB. Jika AD = 8 cm dan DB = 18 cm, luas segitiga ABC adalah ... cm².`, '156', ['144','168'], [
+  `∠ACD + ∠A = 90° dan ∠A + ∠B = 90°, sehingga ∠ACD = ∠B. Bersama sudut siku di D, segitiga ACD sebangun dengan segitiga CBD.`,
+  `Perbandingan sisi yang bersesuaian: ${f('AD','CD')} = ${f('CD','DB')}, maka CD² = AD · DB = 8 × 18 = 144, jadi CD = 12 cm.`,
+  `Panjang AB = AD + DB = 8 + 18 = 26 cm.`,
+  `Luas segitiga ABC = ½ × AB × CD = ½ × 26 × 12 = 156 cm².`
+]),
+mk('Geometri', `Dari titik P di luar lingkaran ditarik dua garis singgung PA dan PB dengan A dan B titik singgung. Jika ∠APB = 50° dan titik C terletak pada busur besar AB, besar ∠ACB adalah ....`, '65°', ['130°','115°'], [
+  `Garis singgung tegak lurus jari-jari di titik singgung, jadi ∠OAP = ∠OBP = 90° (O pusat lingkaran).`,
+  `Jumlah sudut segiempat OAPB = 360°, maka ∠AOB = 360° − 90° − 90° − 50° = 130°.`,
+  `Sudut keliling ∠ACB dan sudut pusat ∠AOB menghadap busur kecil AB yang sama. Sudut keliling = ½ sudut pusat.`,
+  `∠ACB = ½ × 130° = 65°.`
+]),
+mk('Geometri', `Persegi ABCD mempunyai sisi 16 cm. Titik E pada AB dengan AE = 4 cm dan titik F pada BC dengan BF = 8 cm. Luas segitiga DEF adalah ... cm².`, '112', ['96','128'], [
+  `Luas persegi = 16 × 16 = 256 cm². Luas DEF = luas persegi dikurangi tiga segitiga di sudut-sudutnya.`,
+  `Segitiga ADE: AD = 16, AE = 4, luas = ½ · 16 · 4 = 32.`,
+  `Segitiga BEF: BE = 16 − 4 = 12, BF = 8, luas = ½ · 12 · 8 = 48.`,
+  `Segitiga CDF: CD = 16, CF = 16 − 8 = 8, luas = ½ · 16 · 8 = 64.`,
+  `Luas DEF = 256 − (32 + 48 + 64) = 256 − 144 = 112 cm².`
+]),
+mk('Kombinatorika', `Enam orang P, Q, R, S, T, dan U berdiri berjajar dalam satu baris. Jika P dan Q harus berdampingan dan R tidak boleh berdiri di ujung baris, banyak susunan yang mungkin adalah ....`, '144', ['240','120'], [
+  `Anggap P dan Q satu blok. Ada 5 unit (blok, R, S, T, U) yang diatur dalam 5! = 120 cara, dikali 2 untuk isi blok (PQ atau QP). Jadi susunan dengan P, Q berdampingan = 240.`,
+  `Hitung yang tidak diinginkan, yaitu R di ujung. R di ujung kiri: 4 unit lain diatur 4! = 24 cara, dikali 2 = 48. R di ujung kanan juga 48. Total = 96.`,
+  `Susunan yang memenuhi = 240 − 96 = 144.`
+]),
+mk('Kombinatorika', `Dari angka 1, 2, 3, 4, 5, 6, 7 akan disusun bilangan empat digit dengan angka-angka berbeda yang genap dan kurang dari 5000. Banyak bilangan yang mungkin adalah ....`, '200', ['180','220'], [
+  `Digit satuan harus genap: 2, 4, atau 6. Digit ribuan harus kurang dari 5: 1, 2, 3, atau 4. Bagi menjadi kasus menurut digit satuan.`,
+  `Satuan = 2: ribuan ada 3 pilihan (1, 3, 4). Dua digit tengah dari 5 angka sisa: 5 × 4 = 20. Jadi 3 × 20 = 60.`,
+  `Satuan = 4: ribuan ada 3 pilihan (1, 2, 3): 3 × 20 = 60.`,
+  `Satuan = 6: ribuan ada 4 pilihan (1, 2, 3, 4): 4 × 20 = 80.`,
+  `Total = 60 + 60 + 80 = 200.`
+]),
+mk('Peluang', `Sebuah kantong berisi 5 bola merah dan 5 bola biru. Tiga bola diambil sekaligus secara acak. Peluang ketiga bola berwarna sama adalah ....`, f(1,6), [f(1,5), f(1,4)], [
+  `Banyak cara mengambil 3 bola dari 10: C(10, 3) = ${f('10·9·8','3·2·1')} = 120.`,
+  `Ketiganya merah: C(5, 3) = 10. Ketiganya biru: C(5, 3) = 10.`,
+  `Kejadian yang diinginkan = 10 + 10 = 20 cara.`,
+  `Peluang = ${f(20,120)} = ${f(1,6)}.`
+]),
+mk('Statistika', `Rata-rata nilai 10 siswa adalah 64. Setelah dua siswa lagi bergabung, rata-rata 12 siswa menjadi 66. Jika selisih nilai kedua siswa baru adalah 10, nilai tertinggi di antara keduanya adalah ....`, '81', ['76','86'], [
+  `Jumlah nilai 10 siswa = 10 × 64 = 640. Jumlah nilai 12 siswa = 12 × 66 = 792.`,
+  `Jumlah nilai dua siswa baru = 792 − 640 = 152.`,
+  `Misal nilai tertinggi x dan terendah y: x + y = 152 dan x − y = 10.`,
+  `Jumlahkan kedua persamaan: 2x = 162, maka x = 81 (dan y = 71).`
+]),
+mk('Kapita Selekta', `Jumlah semua bilangan bulat dari 1 sampai 200 yang tidak habis dibagi 4 adalah ....`, '15.000', ['15.100','14.800'], [
+  `Strategi efisien: hitung jumlah semua bilangan, lalu kurangi jumlah kelipatan 4.`,
+  `Jumlah 1 sampai 200 = ${f('200 × 201','2')} = 20.100.`,
+  `Kelipatan 4: 4, 8, ..., 200 = 4(1 + 2 + ... + 50) = 4 × 1.275 = 5.100.`,
+  `Jumlah yang diminta = 20.100 − 5.100 = 15.000.`
+]),
+mk('Kapita Selekta', `Perhatikan pola: 1×2 = 2; 1×2 + 2×3 = 8; 1×2 + 2×3 + 3×4 = 20; 1×2 + 2×3 + 3×4 + 4×5 = 40. Berdasarkan pola tersebut, nilai 1×2 + 2×3 + ... + 9×10 adalah ....`, '330', ['285','385'], [
+  `Amati hasilnya: 2 = ${f('1·2·3','3')}, 8 = ${f('2·3·4','3')}, 20 = ${f('3·4·5','3')}, 40 = ${f('4·5·6','3')}.`,
+  `Kesimpulan: jumlah n suku pertama = ${f('n(n + 1)(n + 2)','3')}. Alasannya, pola cocok untuk n = 1 sampai 4, dan secara aljabar Σk(k + 1) = Σk² + Σk = ${f('n(n + 1)(2n + 1)','6')} + ${f('n(n + 1)','2')} = ${f('n(n + 1)(n + 2)','3')}.`,
+  `Untuk n = 9: ${f('9 × 10 × 11','3')} = 330.`,
+  `Cek langsung: Σk² (1 sampai 9) = 285 dan Σk = 45, jumlahnya 330 ✓.`
+]),
+mk('Bilangan', `Angka satuan dari 3<sup>2027</sup> + 9<sup>2027</sup> adalah ....`, '6', ['2','8'], [
+  `Angka satuan pangkat 3 berulang: 3, 9, 7, 1 (periode 4). Angka satuan pangkat 9 berulang: 9, 1 (periode 2).`,
+  `2027 = 4 × 506 + 3, jadi 3<sup>2027</sup> berada di posisi ke-3 dalam pola: satuannya 7.`,
+  `2027 ganjil, jadi 9<sup>2027</sup> bersatuan 9.`,
+  `7 + 9 = 16, sehingga angka satuannya 6.`
+]),
+mk('Bilangan', `Tiga bus berangkat dari terminal secara berkala: bus P setiap 12 menit, bus Q setiap 16 menit, dan bus R setiap 20 menit. Pukul 05.00 ketiganya berangkat bersamaan. Berapa kali ketiganya berangkat bersamaan sejak pukul 05.00 hingga pukul 05.00 keesokan harinya (kedua waktu tersebut dihitung)?`, '7', ['6','8'], [
+  `Ketiga bus berangkat bersamaan setiap KPK(12, 16, 20) menit. 12 = 2²·3, 16 = 2⁴, 20 = 2²·5, jadi KPK = 2⁴·3·5 = 240 menit = 4 jam.`,
+  `Dari pukul 05.00 sampai 05.00 esok hari ada 24 jam, maka 24 ÷ 4 = 6 selang.`,
+  `Karena keberangkatan pertama (pukul 05.00) dan yang terakhir (05.00 esok hari) sama-sama dihitung, banyaknya = 6 + 1 = 7 kali.`
+]),
+mk('Aljabar', `Jika x + ${f(1,'x')} = 3, nilai x<sup>4</sup> + ${f(1,'x<sup>4</sup>')} adalah ....`, '47', ['49','45'], [
+  `Kuadratkan: (x + ${f(1,'x')})² = x² + 2 + ${f(1,'x²')} = 9, maka x² + ${f(1,'x²')} = 7.`,
+  `Kuadratkan lagi: (x² + ${f(1,'x²')})² = x<sup>4</sup> + 2 + ${f(1,'x<sup>4</sup>')} = 49.`,
+  `Jadi x<sup>4</sup> + ${f(1,'x<sup>4</sup>')} = 49 − 2 = 47.`
+]),
+mk('Aljabar', `Selisih umur kakak dan adik adalah 6 tahun. Empat tahun yang lalu, umur kakak 3 kali umur adik. Jumlah umur mereka 5 tahun lagi adalah ... tahun.`, '30', ['20','26'], [
+  `Misal umur adik = a, maka umur kakak = a + 6.`,
+  `Empat tahun lalu: (a + 6) − 4 = 3(a − 4), yaitu a + 2 = 3a − 12, maka 14 = 2a, jadi a = 7 dan kakak 13.`,
+  `Cek: 4 tahun lalu umur mereka 9 dan 3, dan 9 = 3 × 3 ✓.`,
+  `Lima tahun lagi: adik 12 tahun, kakak 18 tahun. Jumlahnya 12 + 18 = 30.`
+]),
+mk('Geometri', `Sebuah tangga sepanjang 65 m disandarkan pada dinding tegak. Ujung bawahnya berjarak 25 m dari dinding. Jika ujung atas tangga turun 8 m sepanjang dinding, ujung bawah tangga bergeser menjauhi dinding sejauh ... m.`, '14', ['8','12'], [
+  `Tinggi awal ujung atas: √(65² − 25²) = √(4.225 − 625) = √3.600 = 60 m.`,
+  `Setelah turun 8 m, tingginya 52 m. Jarak ujung bawah dari dinding sekarang: √(65² − 52²) = √(4.225 − 2.704) = √1.521 = 39 m.`,
+  `Pergeseran = 39 − 25 = 14 m.`
+]),
+mk('Geometri', `Segitiga ABC memiliki AB = 17 cm, BC = 21 cm, dan AC = 10 cm. Tinggi segitiga dari titik A ke sisi BC adalah ... cm.`, '8', ['6','9'], [
+  `Misal kaki tinggi dari A ke BC adalah D dengan BD = x, maka DC = 21 − x, dan tinggi = h.`,
+  `Pythagoras di dua segitiga siku-siku: h² = 17² − x² dan h² = 10² − (21 − x)². Samakan: 289 − x² = 100 − 441 + 42x − x².`,
+  `Sederhanakan: 289 = −341 + 42x, maka 42x = 630 dan x = 15.`,
+  `h = √(17² − 15²) = √64 = 8 cm. (Cek: DC = 6 dan 6² + 8² = 100 ✓.)`
+]),
+mk('Geometri', `Dua tali busur AB dan CD pada suatu lingkaran berpotongan di titik P di dalam lingkaran. Jika AP = 6 cm, PB = 14 cm, dan CP = 7 cm, panjang PD adalah ... cm.`, '12', ['10','14'], [
+  `Hubungkan A dengan C dan B dengan D. ∠CAB = ∠CDB karena menghadap busur yang sama, dan ∠APC = ∠DPB karena bertolak belakang.`,
+  `Jadi segitiga APC sebangun dengan segitiga DPB (sudut-sudut sama).`,
+  `Perbandingan sisi: ${f('AP','DP')} = ${f('CP','BP')}, sehingga AP · BP = CP · DP.`,
+  `6 × 14 = 7 × PD, maka PD = ${f(84,7)} = 12 cm.`
+]),
+mk('Kombinatorika', `Dari 5 pria dan 4 wanita akan dibentuk panitia beranggotakan 4 orang yang memuat paling banyak 1 wanita. Banyak cara membentuk panitia adalah ....`, '45', ['40','50'], [
+  `Paling banyak 1 wanita berarti kasus: 0 wanita atau 1 wanita.`,
+  `0 wanita (4 pria): C(5,4) = 5.`,
+  `1 wanita + 3 pria: C(4,1) × C(5,3) = 4 × 10 = 40.`,
+  `Total = 5 + 40 = 45.`
+]),
+mk('Peluang', `Dua dadu dilempar bersamaan. Peluang jumlah kedua mata dadu habis dibagi 4 adalah ....`, f(1,4), [f(1,3), f(5,18)], [
+  `Ruang sampel: 6 × 6 = 36 hasil.`,
+  `Jumlah yang habis dibagi 4: 4, 8, 12. Jumlah 4 → (1,3), (2,2), (3,1) = 3 cara. Jumlah 8 → (2,6), (3,5), (4,4), (5,3), (6,2) = 5 cara. Jumlah 12 → (6,6) = 1 cara.`,
+  `Total kejadian = 3 + 5 + 1 = 9.`,
+  `Peluang = ${f(9,36)} = ${f(1,4)}.`
+]),
+mk('Statistika', `Rata-rata nilai 10 siswa kelompok P adalah 65. Rata-rata nilai 40 siswa kelompok Q adalah x. Jika rata-rata gabungan kedua kelompok (50 siswa) adalah 81, maka x = ....`, '85', ['81','88'], [
+  `Jumlah nilai kelompok P = 10 × 65 = 650. Jumlah nilai gabungan = 50 × 81 = 4.050.`,
+  `Jumlah nilai kelompok Q = 4.050 − 650 = 3.400.`,
+  `Rata-rata Q: x = ${f('3.400','40')} = 85.`
+])
+];
+
+/* ============ TYPE C ============ */
+const SET_C = [
+mk('Bilangan', `Sisa pembagian 5<sup>2026</sup> oleh 13 adalah ....`, '12', ['1','8'], [
+  `Cari pola sisa pangkat 5 terhadap 13 ${mod(13)}: 5<sup>1</sup> ≡ 5, 5<sup>2</sup> = 25 = 13 + 12 ≡ 12 ≡ −1.`,
+  `Karena 5² ≡ −1, maka 5<sup>4</sup> ≡ (−1)² = 1. Polanya berulang setiap 4 pangkat.`,
+  `2026 = 4 × 506 + 2, maka 5<sup>2026</sup> = (5<sup>4</sup>)<sup>506</sup> · 5² ≡ 1 · 25.`,
+  `25 = 13 + 12, jadi sisanya 12.`
+]),
+mk('Bilangan', `Bilangan asli terkecil yang jika dibagi 5, 6, dan 8 bersisa 2, serta habis dibagi 7 adalah ....`, '602', ['362','482'], [
+  `Sisa ketiganya sama (2), maka N − 2 kelipatan KPK(5, 6, 8). 5, 6 = 2·3, 8 = 2³, jadi KPK = 2³·3·5 = 120.`,
+  `Jadi N = 120k + 2.`,
+  `N habis dibagi 7. Karena 120 = 7 × 17 + 1, maka 120k + 2 ≡ k + 2 (mod 7). Syaratnya k + 2 ≡ 0, sehingga k ≡ 5 (mod 7).`,
+  `k = 0, 1, 2, 3, 4 memberi N = 2, 122, 242, 362, 482 (tidak ada yang habis dibagi 7). k terkecil yang cocok adalah 5, sehingga N = 600 + 2 = 602.`,
+  `Cek: 602 = 7 × 86; 602 = 5 × 120 + 2; 602 = 6 × 100 + 2; 602 = 8 × 75 + 2.`
+]),
+mk('Bilangan', `Banyak faktor positif dari 12.600 yang merupakan kelipatan 15 adalah ....`, '32', ['24','40'], [
+  `Faktorisasi prima: 12.600 = 126 × 100 = (2·3²·7)(2²·5²) = 2³ · 3² · 5² · 7.`,
+  `Faktor berbentuk 2<sup>a</sup>·3<sup>b</sup>·5<sup>c</sup>·7<sup>d</sup>. Kelipatan 15 harus memuat minimal satu faktor 3 dan satu faktor 5.`,
+  `a ∈ {0, 1, 2, 3} (4 pilihan), b ∈ {1, 2} (2 pilihan), c ∈ {1, 2} (2 pilihan), d ∈ {0, 1} (2 pilihan).`,
+  `Banyaknya = 4 × 2 × 2 × 2 = 32.`
+]),
+mk('Bilangan', `Pada sistem bilangan basis b berlaku (26)<sub>b</sub> × (3)<sub>b</sub> = (114)<sub>b</sub>. Nilai b adalah ....`, '7', ['8','9'], [
+  `Ubah ke basis 10: (26)<sub>b</sub> = 2b + 6, dan (114)<sub>b</sub> = b² + b + 4.`,
+  `Persamaan: (2b + 6) × 3 = b² + b + 4, yaitu 6b + 18 = b² + b + 4.`,
+  `Susun ulang: b² − 5b − 14 = 0, difaktorkan (b − 7)(b + 2) = 0, jadi b = 7 atau b = −2.`,
+  `Basis harus positif dan lebih besar dari digit terbesar (6), jadi b = 7.`,
+  `Cek: (26)<sub>7</sub> = 20, dikali 3 = 60, dan (114)<sub>7</sub> = 49 + 7 + 4 = 60 ✓.`
+]),
+mk('Bilangan', `Banyak bilangan asli n ≤ 100 sehingga n² + 2n habis dibagi 16 adalah ....`, '24', ['25','50'], [
+  `Tulis n² + 2n = n(n + 2). Jika n ganjil, hasilnya ganjil sehingga tidak mungkin habis dibagi 16. Jadi n harus genap.`,
+  `Misal n = 2m. Maka n(n + 2) = 2m(2m + 2) = 4m(m + 1). Agar kelipatan 16, m(m + 1) harus kelipatan 4.`,
+  `m dan m + 1 berurutan, satu di antaranya ganjil. Jadi yang genap harus kelipatan 4: m ≡ 0 atau m ≡ 3 (mod 4).`,
+  `n ≤ 100 berarti m ≤ 50. Untuk m ≡ 0: 4, 8, ..., 48 (12 nilai). Untuk m ≡ 3: 3, 7, ..., 47 (12 nilai). Total 24.`,
+  `Cek: n = 6 → 48 ✓, n = 8 → 80 ✓, n = 2 → 8 ✗, n = 4 → 24 ✗.`
+]),
+mk('Aljabar', `Diketahui a + b = 9 dan a² + b² = 45. Nilai a<sup>3</sup> + b<sup>3</sup> adalah ....`, '243', ['729','216'], [
+  `Kuadratkan a + b: (a + b)² = a² + 2ab + b², maka 81 = 45 + 2ab, sehingga ab = 18.`,
+  `Pangkatkan tiga: (a + b)³ = a³ + b³ + 3ab(a + b), maka a³ + b³ = (a + b)³ − 3ab(a + b).`,
+  `Substitusi: a³ + b³ = 9³ − 3 · 18 · 9 = 729 − 486 = 243.`,
+  `Cek dengan a = 6, b = 3: 216 + 27 = 243 ✓.`
+]),
+mk('Aljabar', `Diberikan persamaan (a² − 4a + 3)x = a − 3. Jumlah semua nilai a agar persamaan tersebut tidak memiliki penyelesaian atau memiliki tak hingga banyak penyelesaian adalah ....`, '4', ['3','2'], [
+  `Persamaan p·x = q dengan p = a² − 4a + 3 = (a − 1)(a − 3) dan q = a − 3. Jika p ≠ 0, persamaan punya tepat satu penyelesaian, jadi kasus khusus hanya saat p = 0.`,
+  `p = 0 → a = 1 atau a = 3.`,
+  `Uji a = 1: 0·x = −2, tidak mungkin, sehingga tidak ada penyelesaian ✓.`,
+  `Uji a = 3: 0·x = 0, benar untuk semua x, sehingga tak hingga penyelesaian ✓.`,
+  `Jumlah nilai a = 1 + 3 = 4.`
+]),
+mk('Aljabar', `Bilangan real x dan y memenuhi 2x + y = 20. Nilai maksimum xy adalah ....`, '50', ['40','100'], [
+  `Dari 2x + y = 20 diperoleh y = 20 − 2x, sehingga xy = x(20 − 2x) = 20x − 2x².`,
+  `Lengkapi kuadrat: 20x − 2x² = −2(x² − 10x) = −2[(x − 5)² − 25] = 50 − 2(x − 5)².`,
+  `Karena (x − 5)² ≥ 0, maka xy ≤ 50. Nilai maksimum tercapai saat x = 5 dan y = 10.`
+]),
+mk('Aljabar', `Diberikan barisan 5, 12, 21, 32, 45, .... Suku ke-40 barisan tersebut adalah ....`, '1.760', ['1.720','1.800'], [
+  `Selisih tingkat 1: 7, 9, 11, 13. Selisih tingkat 2: 2, 2, 2 (tetap), maka rumusnya kuadrat: U<sub>n</sub> = an² + bn + c dengan 2a = 2, jadi a = 1.`,
+  `U<sub>1</sub>: 1 + b + c = 5 dan U<sub>2</sub>: 4 + 2b + c = 12. Kurangkan: 3 + b = 7, maka b = 4 dan c = 0.`,
+  `Rumus suku ke-n: U<sub>n</sub> = n² + 4n. Cek U<sub>3</sub> = 9 + 12 = 21 ✓.`,
+  `U<sub>40</sub> = 1.600 + 160 = 1.760.`
+]),
+mk('Aljabar', `Harga 5 pulpen dan 2 buku adalah Rp29.000, sedangkan harga 2 pulpen dan 3 buku adalah Rp27.000. Harga 4 pulpen dan 3 buku adalah ....`, 'Rp33.000', ['Rp31.000','Rp35.000'], [
+  `Misal harga pulpen = p dan buku = b (dalam ribuan rupiah). Sistem: 5p + 2b = 29 ... (1) dan 2p + 3b = 27 ... (2).`,
+  `Eliminasi b: (1) × 3 → 15p + 6b = 87; (2) × 2 → 4p + 6b = 54. Kurangkan: 11p = 33, maka p = 3.`,
+  `Substitusi ke (1): 15 + 2b = 29, maka b = 7.`,
+  `4p + 3b = 12 + 21 = 33, yaitu Rp33.000. Cek (2): 6 + 21 = 27 ✓.`
+]),
+mk('Geometri', `Pada segiempat ABCD, ∠ABC = 90° dan ∠ACD = 90°. Jika AB = 6 cm, BC = 8 cm, dan CD = 24 cm, panjang AD adalah ... cm.`, '26', ['30','28'], [
+  `Segitiga ABC siku-siku di B: AC² = AB² + BC² = 36 + 64 = 100, maka AC = 10 cm.`,
+  `Segitiga ACD siku-siku di C: AD² = AC² + CD² = 100 + 576 = 676.`,
+  `AD = √676 = 26 cm.`
+]),
+mk('Geometri', `Pada segitiga ABC, titik D di AB dan titik E di AC sehingga DE ∥ BC. Luas segitiga ADE = 16 cm² dan luas trapesium DBCE = 33 cm². Jika DE = 12 cm, panjang BC adalah ... cm.`, '21', ['18','24'], [
+  `Karena DE ∥ BC, ∠ADE = ∠ABC dan ∠AED = ∠ACB (sudut sehadap), jadi segitiga ADE sebangun dengan segitiga ABC.`,
+  `Luas segitiga ABC = 16 + 33 = 49 cm².`,
+  `Perbandingan luas dua bangun sebangun = kuadrat perbandingan sisinya: ${f(16,49)} = (${f('DE','BC')})², sehingga ${f('DE','BC')} = ${f(4,7)}.`,
+  `BC = DE × ${f(7,4)} = 12 × ${f(7,4)} = 21 cm.`
+]),
+mk('Geometri', `AB adalah diameter lingkaran berpusat di O dan C terletak pada lingkaran. Garis singgung di C memotong perpanjangan AB di titik T (B berada di antara A dan T). Jika ∠CAB = 28°, besar ∠ATC adalah ....`, '34°', ['62°','56°'], [
+  `OA = OC (jari-jari), sehingga segitiga OAC sama kaki dan ∠OCA = ∠CAO = 28°.`,
+  `∠COB adalah sudut luar segitiga OAC, maka ∠COB = 28° + 28° = 56°. Jadi ∠COT = 56°.`,
+  `Garis singgung tegak lurus jari-jari di titik singgung, sehingga ∠OCT = 90°.`,
+  `Pada segitiga OCT: ∠ATC = ∠OTC = 180° − 90° − 56° = 34°.`
+]),
+mk('Geometri', `Persegi ABCD mempunyai sisi 20 cm. Titik E adalah titik tengah BC dan F adalah titik tengah CD. Luas segitiga AEF adalah ... cm².`, '150', ['140','160'], [
+  `Luas persegi = 20 × 20 = 400 cm². Luas AEF = luas persegi dikurangi tiga segitiga di sekitarnya.`,
+  `Segitiga ABE: AB = 20, BE = 10, luas = ½ · 20 · 10 = 100.`,
+  `Segitiga ADF: AD = 20, DF = 10, luas = ½ · 20 · 10 = 100.`,
+  `Segitiga CEF: CE = 10, CF = 10, luas = ½ · 10 · 10 = 50.`,
+  `Luas AEF = 400 − (100 + 100 + 50) = 400 − 250 = 150 cm².`
+]),
+mk('Kombinatorika', `Empat anak laki-laki dan tiga anak perempuan duduk berjajar dalam satu baris. Jika tidak boleh ada dua anak perempuan yang duduk berdampingan, banyak susunan duduk yang mungkin adalah ....`, '1.440', ['720','2.160'], [
+  `Atur dulu 4 anak laki-laki: 4! = 24 cara.`,
+  `Empat anak laki-laki membentuk 5 celah (dua di ujung dan tiga di antara mereka). Anak perempuan harus menempati celah yang berbeda agar tidak berdampingan.`,
+  `Pilih dan urutkan 3 celah untuk 3 anak perempuan: 5 × 4 × 3 = 60 cara.`,
+  `Total = 24 × 60 = 1.440.`
+]),
+mk('Kombinatorika', `Dari angka 0, 1, 2, 3, 4, 5, 6 akan disusun bilangan empat digit dengan angka-angka berbeda yang genap dan kurang dari 4000. Banyak bilangan yang mungkin adalah ....`, '220', ['210','240'], [
+  `Digit ribuan tidak boleh 0 dan harus kurang dari 4: 1, 2, atau 3. Digit satuan genap: 0, 2, 4, atau 6. Bagi menjadi kasus menurut digit satuan.`,
+  `Satuan = 0: ribuan ada 3 pilihan (1, 2, 3). Dua digit tengah dari 5 angka sisa: 5 × 4 = 20. Jadi 3 × 20 = 60.`,
+  `Satuan = 2: ribuan ada 2 pilihan (1, 3): 2 × 20 = 40.`,
+  `Satuan = 4: ribuan ada 3 pilihan (1, 2, 3): 60. Satuan = 6: ribuan 3 pilihan: 60.`,
+  `Total = 60 + 40 + 60 + 60 = 220.`
+]),
+mk('Peluang', `Sebuah kantong berisi 4 kelereng merah, 3 hijau, dan 3 biru. Dua kelereng diambil sekaligus secara acak. Peluang kedua kelereng berwarna sama adalah ....`, f(4,15), [f(1,3), f(2,5)], [
+  `Banyak cara mengambil 2 kelereng dari 10: C(10, 2) = ${f('10·9','2')} = 45.`,
+  `Sama-sama merah: C(4, 2) = 6. Sama-sama hijau: C(3, 2) = 3. Sama-sama biru: C(3, 2) = 3.`,
+  `Kejadian yang diinginkan = 6 + 3 + 3 = 12 cara.`,
+  `Peluang = ${f(12,45)} = ${f(4,15)}.`
+]),
+mk('Statistika', `Rata-rata nilai 20 siswa adalah 75. Jika nilai tertinggi (98) dan nilai terendah dikeluarkan, rata-rata 18 siswa yang tersisa menjadi 74. Nilai terendah adalah ....`, '70', ['68','72'], [
+  `Jumlah nilai 20 siswa = 20 × 75 = 1.500. Jumlah nilai 18 siswa tersisa = 18 × 74 = 1.332.`,
+  `Jumlah dua nilai yang dikeluarkan = 1.500 − 1.332 = 168.`,
+  `Nilai terendah = 168 − 98 = 70.`
+]),
+mk('Kapita Selekta', `Jumlah semua bilangan asli tidak lebih dari 150 yang habis dibagi 3 tetapi tidak habis dibagi 2 adalah ....`, '1.875', ['1.950','1.800'], [
+  `Strategi efisien: bilangan yang dimaksud adalah kelipatan 3 yang ganjil, yaitu 3, 9, 15, ..., 147. Ini deret aritmetika dengan beda 6.`,
+  `Banyak suku: ${f('147 − 3','6')} + 1 = 25.`,
+  `Jumlah = ${f('n','2')} (suku pertama + suku terakhir) = ${f(25,2)} × (3 + 147) = 25 × 75 = 1.875.`
+]),
+mk('Kapita Selekta', `Perhatikan pola: 1² = 1; 11² = 121; 111² = 12321; 1111² = 1234321. Berdasarkan pola tersebut, jumlah digit-digit dari 111.111.111² (sembilan angka 1) adalah ....`, '81', ['45','72'], [
+  `Pola: bilangan dengan n angka 1 dikuadratkan menghasilkan digit 1, 2, ..., n, ..., 2, 1 (naik sampai n lalu turun kembali). Pola ini berlaku selama n ≤ 9 karena tidak ada digit yang melebihi 9.`,
+  `Untuk n = 9: 111.111.111² = 12.345.678.987.654.321.`,
+  `Jumlah digit = (1 + 2 + ... + 9) + (8 + 7 + ... + 1) = 45 + 36 = 81 (yaitu n² = 9²).`
+]),
+mk('Bilangan', `Angka satuan dari 2<sup>2026</sup> + 4<sup>2027</sup> + 6<sup>2028</sup> adalah ....`, '4', ['2','8'], [
+  `Angka satuan pangkat 2 berulang: 2, 4, 8, 6 (periode 4). 2026 = 4 × 506 + 2, jadi satuan 2<sup>2026</sup> adalah 4.`,
+  `Angka satuan pangkat 4 berulang: 4, 6 (periode 2). 2027 ganjil, jadi satuan 4<sup>2027</sup> adalah 4.`,
+  `Angka satuan setiap pangkat 6 selalu 6, jadi satuan 6<sup>2028</sup> adalah 6.`,
+  `4 + 4 + 6 = 14, sehingga angka satuannya 4.`
+]),
+mk('Bilangan', `Ibu memiliki 84 permen, 126 cokelat, dan 210 kue. Semuanya akan dibagikan ke sebanyak mungkin kantong yang isinya sama persis (setiap jenis dibagi rata tanpa sisa). Banyak semua barang (permen, cokelat, dan kue) dalam satu kantong adalah ....`, '10', ['12','42'], [
+  `Banyak kantong terbanyak = FPB(84, 126, 210). 84 = 2²·3·7, 126 = 2·3²·7, 210 = 2·3·5·7, jadi FPB = 2·3·7 = 42 kantong.`,
+  `Isi tiap kantong: permen 84 ÷ 42 = 2, cokelat 126 ÷ 42 = 3, kue 210 ÷ 42 = 5.`,
+  `Jumlah barang dalam satu kantong = 2 + 3 + 5 = 10.`
+]),
+mk('Aljabar', `Jika x − ${f(1,'x')} = 5, nilai x<sup>3</sup> − ${f(1,'x<sup>3</sup>')} adalah ....`, '140', ['125','155'], [
+  `Pangkatkan tiga: (x − ${f(1,'x')})³ = x³ − 3x + ${f(3,'x')} − ${f(1,'x³')} = x³ − ${f(1,'x³')} − 3(x − ${f(1,'x')}).`,
+  `Maka x³ − ${f(1,'x³')} = (x − ${f(1,'x')})³ + 3(x − ${f(1,'x')}).`,
+  `Substitusi: x³ − ${f(1,'x³')} = 5³ + 3 · 5 = 125 + 15 = 140.`
+]),
+mk('Aljabar', `Perbandingan uang Rani dan Sari adalah 5 : 3. Jika Rani memberikan Rp12.000 kepada Sari, uang mereka menjadi sama banyak. Jumlah uang mereka berdua adalah ....`, 'Rp96.000', ['Rp72.000','Rp108.000'], [
+  `Misal uang Rani = 5k dan uang Sari = 3k.`,
+  `Setelah Rani memberi Rp12.000: 5k − 12.000 = 3k + 12.000, maka 2k = 24.000, jadi k = 12.000.`,
+  `Uang Rani = Rp60.000 dan uang Sari = Rp36.000.`,
+  `Jumlah = Rp96.000. Cek: 60.000 − 12.000 = 48.000 dan 36.000 + 12.000 = 48.000 ✓.`
+]),
+mk('Geometri', `Sebuah balok berukuran panjang 12 cm, lebar 9 cm, dan tinggi 8 cm. Panjang diagonal ruang balok tersebut adalah ... cm.`, '17', ['15','29'], [
+  `Diagonal alas d: d² = 12² + 9² = 144 + 81 = 225, maka d = 15 cm.`,
+  `Diagonal ruang D membentuk segitiga siku-siku dengan diagonal alas d dan tinggi 8 cm: D² = d² + 8² = 225 + 64 = 289.`,
+  `D = √289 = 17 cm.`
+]),
+mk('Geometri', `Segitiga ABC memiliki AB = 13 cm, AC = 20 cm, dan BC = 21 cm. Luas segitiga ABC adalah ... cm².`, '126', ['120','130'], [
+  `Ambil BC = 21 sebagai alas. Misal kaki tinggi dari A ke BC adalah D dengan BD = x, maka DC = 21 − x, dan tinggi = h.`,
+  `Pythagoras di dua segitiga siku-siku: h² = 13² − x² dan h² = 20² − (21 − x)². Samakan: 169 − x² = 400 − 441 + 42x − x².`,
+  `Sederhanakan: 169 = −41 + 42x, maka 42x = 210 dan x = 5.`,
+  `h = √(13² − 5²) = √144 = 12 cm.`,
+  `Luas = ½ × alas × tinggi = ½ × 21 × 12 = 126 cm².`
+]),
+mk('Geometri', `Dua tali busur AB dan CD pada suatu lingkaran berpotongan di titik P di dalam lingkaran. Jika AP = 4 cm, PB = 15 cm, dan CP = 6 cm, panjang PD adalah ... cm.`, '10', ['8','12'], [
+  `Hubungkan A dengan C dan B dengan D. ∠CAB = ∠CDB karena menghadap busur yang sama, dan ∠APC = ∠DPB karena bertolak belakang.`,
+  `Jadi segitiga APC sebangun dengan segitiga DPB (sudut-sudut sama).`,
+  `Perbandingan sisi: ${f('AP','DP')} = ${f('CP','BP')}, sehingga AP · BP = CP · DP.`,
+  `4 × 15 = 6 × PD, maka PD = ${f(60,6)} = 10 cm.`
+]),
+mk('Kombinatorika', `Dari 5 siswa putra dan 4 siswa putri akan dipilih 5 orang pengurus dengan syarat paling sedikit 2 putra dan paling sedikit 2 putri. Banyak cara memilih pengurus adalah ....`, '100', ['90','126'], [
+  `Dari 5 orang dengan minimal 2 putra dan 2 putri, komposisi yang mungkin hanya: (2 putra, 3 putri) atau (3 putra, 2 putri). Komposisi (4, 1) dan (1, 4) tidak memenuhi.`,
+  `2 putra + 3 putri: C(5,2) × C(4,3) = 10 × 4 = 40.`,
+  `3 putra + 2 putri: C(5,3) × C(4,2) = 10 × 6 = 60.`,
+  `Total = 40 + 60 = 100.`
+]),
+mk('Peluang', `Dua dadu dilempar bersamaan. Peluang hasil kali kedua mata dadu merupakan bilangan genap adalah ....`, f(3,4), [f(1,2), f(5,6)], [
+  `Ruang sampel: 6 × 6 = 36 hasil.`,
+  `Lebih mudah menghitung kebalikannya: hasil kali ganjil hanya terjadi jika kedua dadu ganjil (1, 3, 5). Banyaknya 3 × 3 = 9 hasil.`,
+  `Peluang hasil kali ganjil = ${f(9,36)} = ${f(1,4)}.`,
+  `Peluang hasil kali genap = 1 − ${f(1,4)} = ${f(3,4)}.`
+]),
+mk('Statistika', `Rata-rata nilai 20 siswa kelompok M adalah 72. Rata-rata nilai 30 siswa kelompok N adalah x. Jika rata-rata gabungan kedua kelompok (50 siswa) adalah 84, maka x = ....`, '92', ['88','96'], [
+  `Jumlah nilai kelompok M = 20 × 72 = 1.440. Jumlah nilai gabungan = 50 × 84 = 4.200.`,
+  `Jumlah nilai kelompok N = 4.200 − 1.440 = 2.760.`,
+  `Rata-rata N: x = ${f('2.760','30')} = 92.`
+])
+];
+
+const SETS = { A: SET_A, B: SET_B, C: SET_C };
+const TOFF = { A: 0, B: 1, C: 2 };
+const LET = ['A', 'B', 'C'];
+
+/* Build options with the correct answer placed at a varied position (A, B, or C only) */
+function prepare(type) {
+  return SETS[type].map((q, i) => {
+    const pos = (i % 3 + TOFF[type] + Math.floor(i / 3)) % 3;
+    const opts = []; let w = 0;
+    for (let p = 0; p < 3; p++) opts[p] = (p === pos) ? q.correct : q.wrong[w++];
+    return { ...q, opts, ans: pos };
+  });
+}
+
+/* ============ state + DOM ============ */
+const $ = (id) => document.getElementById(id);
+const st = { type: 'A', qs: [], idx: 0, picks: [], ok: 0, locked: false, t0: 0, tick: null };
+
+function show(id) {
+  ['menu', 'quiz', 'result'].forEach(s => $(s).classList.toggle('active', s === id));
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+const fmt = (s) => String(Math.floor(s / 60)).padStart(2, '0') + ':' + String(s % 60).padStart(2, '0');
+
+function start(type) {
+  st.type = type; st.qs = prepare(type); st.idx = 0; st.picks = []; st.ok = 0; st.locked = false; st.t0 = Date.now();
+  clearInterval(st.tick);
+  st.tick = setInterval(() => { $('timer').textContent = fmt(Math.floor((Date.now() - st.t0) / 1000)); }, 1000);
+  $('typePill').textContent = 'Type ' + type;
+  $('okCount').textContent = '0';
+  $('timer').textContent = '00:00';
+  show('quiz');
+  render();
+}
+
+function render() {
+  const q = st.qs[st.idx], n = st.qs.length;
+  st.locked = false;
+  $('qnum').textContent = `Soal ${st.idx + 1} dari ${n}`;
+  $('qtopic').textContent = q.topic;
+  $('qtext').innerHTML = q.q;
+  $('bar').style.width = (st.idx / n * 100) + '%';
+  $('opts').innerHTML = q.opts.map((o, i) =>
+    `<button class="opt" data-i="${i}"><span class="badge">${LET[i]}</span><span class="txt">${o}</span><span class="mark"></span></button>`
+  ).join('');
+  $('opts').querySelectorAll('.opt').forEach(b => b.addEventListener('click', () => choose(+b.dataset.i)));
+  $('feedback').classList.remove('show');
+  const c = $('qcard'); c.classList.remove('swap'); void c.offsetWidth; c.classList.add('swap');
+}
+
+function choose(i) {
+  if (st.locked) return;
+  st.locked = true;
+  const q = st.qs[st.idx];
+  st.picks[st.idx] = i;
+  const right = i === q.ans;
+  if (right) { st.ok++; $('okCount').textContent = st.ok; }
+  $('opts').querySelectorAll('.opt').forEach((b, k) => {
+    b.disabled = true;
+    if (k === q.ans) { b.classList.add('correct'); b.querySelector('.mark').textContent = '✓'; }
+    else if (k === i) { b.classList.add('wrong'); b.querySelector('.mark').textContent = '✗'; }
+    else b.classList.add('dim');
+  });
+  const v = $('verdict');
+  v.className = 'verdict ' + (right ? 'good' : 'bad');
+  v.textContent = right ? 'Benar! Jawabanmu tepat.' : `Belum tepat. Jawaban yang benar adalah ${LET[q.ans]}.`;
+  $('steps').innerHTML = q.steps.map(s => `<li>${s}</li>`).join('');
+  $('ansLine').innerHTML = `Jawaban: ${LET[q.ans]}. ${q.correct}`;
+  $('nextBtn').textContent = st.idx === st.qs.length - 1 ? 'Lihat hasil' : 'Soal berikutnya';
+  $('feedback').classList.add('show');
+  setTimeout(() => $('feedback').scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 120);
+}
+
+function next() {
+  if (!st.locked) return;
+  if (st.idx < st.qs.length - 1) { st.idx++; render(); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+  else finish();
+}
+
+function finish() {
+  clearInterval(st.tick);
+  const n = st.qs.length, secs = Math.floor((Date.now() - st.t0) / 1000);
+  const score = Math.round(st.ok / n * 100);
+  $('bar').style.width = '100%';
+  $('rScore').textContent = score;
+  const msg = score >= 90 ? 'Luar biasa, Qisya!' : score >= 75 ? 'Keren banget!' : score >= 60 ? 'Bagus, terus latihan ya!' : 'Semangat, kamu pasti bisa!';
+  $('rMsg').textContent = msg;
+  $('rSub').textContent = `Type ${st.type}: ${st.ok} benar dari ${n} soal, waktu ${fmt(secs)}.`;
+  $('review').innerHTML = '<h3>Pembahasan semua soal</h3>' + st.qs.map((q, i) => {
+    const pick = st.picks[i], right = pick === q.ans;
+    const plain = q.q.replace(/<[^>]+>/g, '');
+    return `<details class="ritem"><summary><span class="n ${right ? 'ok' : 'no'}">${i + 1}</span><span class="sm">${plain}</span></summary>
+      <div class="body"><p class="qfull">${q.q}</p>
+      <div class="yours">Jawabanmu: <b>${LET[pick]}. ${q.opts[pick]}</b> ${right ? '(benar)' : '(salah)'} &nbsp;|&nbsp; Jawaban benar: <b>${LET[q.ans]}. ${q.correct}</b></div>
+      <div class="solution"><h4>Cara mengerjakan</h4><ol class="steps">${q.steps.map(s => `<li>${s}</li>`).join('')}</ol></div></div></details>`;
+  }).join('');
+  show('result');
+  const ring = $('ringFill'); ring.style.strokeDashoffset = 339.3;
+  requestAnimationFrame(() => requestAnimationFrame(() => { ring.style.strokeDashoffset = 339.3 * (1 - score / 100); }));
+}
+
+/* ============ events ============ */
+document.querySelectorAll('.type-btn').forEach(b => b.addEventListener('click', () => start(b.dataset.type)));
+$('nextBtn').addEventListener('click', next);
+$('againBtn').addEventListener('click', () => start(st.type));
+$('menuBtn').addEventListener('click', () => show('menu'));
+let exitArmed = null;
+$('exitBtn').addEventListener('click', () => {
+  const b = $('exitBtn');
+  if (exitArmed) { clearTimeout(exitArmed); exitArmed = null; b.textContent = '‹ Menu'; clearInterval(st.tick); show('menu'); return; }
+  b.textContent = 'Yakin? Klik lagi';
+  exitArmed = setTimeout(() => { exitArmed = null; b.textContent = '‹ Menu'; }, 3000);
+});
+document.addEventListener('keydown', (e) => {
+  if (!$('quiz').classList.contains('active')) return;
+  const k = e.key.toLowerCase();
+  if (['a', 'b', 'c'].includes(k)) choose(k.charCodeAt(0) - 97);
+  else if ((k === 'enter' || k === 'arrowright') && st.locked) next();
+});
+
+/* theme toggle (starts in the cream + pink light look) */
+$('themeBtn').addEventListener('click', () => {
+  const r = document.documentElement, dark = r.getAttribute('data-theme') === 'dark';
+  r.setAttribute('data-theme', dark ? 'light' : 'dark');
+  $('themeBtn').textContent = dark ? '☾' : '☀';
+});
+
+/* ============ decorative sparkles + floating math symbols ============ */
+(function deco() {
+  const bg = $('bg');
+  for (let i = 0; i < 18; i++) {
+    const s = document.createElement('span');
+    s.className = 'spark'; s.textContent = i % 3 ? '✦' : '✧';
+    s.style.left = Math.random() * 100 + '%'; s.style.top = Math.random() * 100 + '%';
+    s.style.fontSize = (10 + Math.random() * 16) + 'px';
+    s.style.animationDelay = (Math.random() * 5) + 's'; s.style.animationDuration = (4 + Math.random() * 4) + 's';
+    bg.appendChild(s);
+  }
+  const syms = ['π', '∑', '√', '∞', '÷', '×', '+', '−', '%', 'Δ', '²', '≠'];
+  for (let i = 0; i < 12; i++) {
+    const s = document.createElement('span');
+    s.className = 'sym'; s.textContent = syms[i % syms.length];
+    s.style.left = (Math.random() * 94) + '%'; s.style.top = (Math.random() * 90) + '%';
+    s.style.fontSize = (28 + Math.random() * 46) + 'px';
+    s.style.animationDelay = (-Math.random() * 10) + 's'; s.style.animationDuration = (11 + Math.random() * 8) + 's';
+    bg.appendChild(s);
+  }
+})();
+</script>
+</body>
+</html>
